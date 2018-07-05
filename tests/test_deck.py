@@ -55,10 +55,25 @@ class TestDeck(unittest.TestCase):
         self.assertEqual(colors, {"RED", "BLUE", "GREEN", "YELLOW"})
 
     # There should be 8 cards each of numbers 1-9
-    def test_deck_should_have_2_cards_of_each_number_in_1_to_9(self):
+    def test_deck_should_have_8_cards_of_each_number_in_1_to_9(self):
         numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         numbered_cards = [filter(lambda c: c.number == number, self.cards)
                           for number in numbers
                           ]
         occurrences = [len(list(nc)) for nc in numbered_cards]
         self.assertListEqual(occurrences, [8] * 9)
+
+    # Each color should have 2 cards of numbers 1-9
+    def test_deck_should_have_2_cards_of_a_number_in_each_color(self):
+        numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        colors = {"RED", "BLUE", "GREEN", "YELLOW"}
+        # Cards of each number are separated
+        numbered_cards = [list(filter(lambda c: c.number == number, self.cards))
+                          for number in numbers
+                          ]
+
+        # From the cards of each number we get its color
+        colors_of_each_number \
+            = [set(map(lambda c: c.color, nc)) for nc in numbered_cards]
+        for c in colors_of_each_number:
+            self.assertSetEqual(c, colors)
