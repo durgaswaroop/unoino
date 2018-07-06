@@ -77,3 +77,55 @@ class TestDeck(unittest.TestCase):
             = [set(map(lambda c: c.color, nc)) for nc in numbered_cards]
         for c in colors_of_each_number:
             self.assertSetEqual(c, colors)
+
+    # There should be 24 actions cards in the deck
+    def test_deck_should_have_24_action_cards(self):
+        action_cards = list(filter(lambda c: c.is_action_card, self.cards))
+        self.assertEqual(len(action_cards), 24)
+
+    # There should be 8 skip cards in the deck
+    def test_deck_should_have_8_skip_cards(self):
+        skip_cards = [c for c in self.cards if
+                      (c.is_action_card and c.action == "SKIP")]
+        self.assertEqual(len(skip_cards), 8)
+
+    # There should be 2 skip cards of each color in the deck
+    def test_deck_has_2_skip_cards_of_each_color(self):
+        skip_cards = [c for c in self.cards if c.action == "SKIP"]
+        colors_of_those = {sc.color for sc in skip_cards}
+        self.assertSetEqual(colors_of_those, {"RED", "BLUE", "GREEN", "YELLOW"})
+
+    # There should be 8 Draw Two cards in the deck
+    def test_deck_should_have_8_draw_two_cards(self):
+        draw_2_cards = [c for c in self.cards if
+                        (c.is_action_card and c.action == "DRAW_TWO")]
+        self.assertEqual(len(draw_2_cards), 8)
+
+    # There should be 2 Draw Two cards of each color in the deck
+    def test_deck_has_2_draw_two_cards_of_each_color(self):
+        draw_2_cards = [c for c in self.cards if c.action == "DRAW_TWO"]
+        colors_of_those = {dc.color for dc in draw_2_cards}
+        self.assertSetEqual(colors_of_those,
+                            {"RED", "BLUE", "GREEN", "YELLOW"})
+
+    # There should be 8 Reverse cards in the deck
+    def test_deck_should_have_8_reverse_cards(self):
+        reverse_cards = [c for c in self.cards if
+                         (c.is_action_card and c.action == "REVERSE")]
+        self.assertEqual(len(reverse_cards), 8)
+
+    # There should be 2 Reverse cards of each color in the deck
+    def test_deck_has_2_reverse_two_cards_of_each_color(self):
+        reverse_cards = [c for c in self.cards if c.action == "REVERSE"]
+        colors_of_those = {rc.color for rc in reverse_cards}
+        self.assertSetEqual(colors_of_those,
+                            {"RED", "BLUE", "GREEN", "YELLOW"})
+
+    # There should be 6 actions cards in each color
+    def test_deck_has_6_action_cards_in_each_color(self):
+        colors = ["RED", "BLUE", "GREEN", "YELLOW"]
+        for color in colors:
+            cards_of_this_color = [c for c in self.cards if c.color == color]
+            action_cards_here = [c for c in cards_of_this_color if
+                                 c.is_action_card]
+            self.assertEqual(len(action_cards_here), 6)

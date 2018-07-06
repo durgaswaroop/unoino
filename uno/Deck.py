@@ -12,31 +12,44 @@ class Deck:
         self.cards = self.generate_deck()
 
     def generate_deck(self):
-        # colors = ["RED", "BLUE", "GREEN", "YELLOW"]  # No Pink Ranger :(
+        colors = ["RED", "BLUE", "GREEN", "YELLOW"]  # No Pink Ranger :(
         numbers = list(range(10)) + list(range(1, 10))
-        # numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        actions = ["SKIP", None, None]
 
-        # cards = [Card(color, number) for color, number in zip(colors, numbers)]
+        # cards = [Card(color) for color, number in zip(colors, numbers, actions)]
 
         # colored_cards = []
 
         # cards = [Card("") for i in range(FULL_DECK_SIZE)]
 
-        reds = [Card("RED") for i in range(25)]
-        blues = [Card("BLUE") for i in range(25)]
-        greens = [Card("GREEN") for i in range(25)]
-        yellows = [Card("YELLOW") for i in range(25)]
-
-        # Add zero card to all the four colored sets
-        for unicolored_cards in [reds, blues, greens, yellows]:
-            unicolored_cards[0].number = 0
+        reds = [Card("RED") for _ in range(25)]
+        blues = [Card("BLUE") for _ in range(25)]
+        greens = [Card("GREEN") for _ in range(25)]
+        yellows = [Card("YELLOW") for _ in range(25)]
 
         # Add numbers
-        for id, number in enumerate(numbers):
-            reds[id].number = number
-            blues[id].number = number
-            greens[id].number = number
-            yellows[id].number = number
+        for i, number in enumerate(numbers):
+            reds[i].number = number
+            blues[i].number = number
+            greens[i].number = number
+            yellows[i].number = number
+
+        # Add action cards
+        # There will be 6 action cards of each color
+        for i in range(len(reds) - 1, len(reds) - 7, -1):
+            reds[i].is_action_card = True
+            blues[i].is_action_card = True
+            greens[i].is_action_card = True
+            yellows[i].is_action_card = True
+
+        for colored_cards in [reds, blues, greens, yellows]:
+            colored_cards[19].action = "SKIP"
+            colored_cards[20].action = "SKIP"
+            colored_cards[21].action = "DRAW_TWO"
+            colored_cards[22].action = "DRAW_TWO"
+            colored_cards[23].action = "REVERSE"
+            colored_cards[24].action = "REVERSE"
 
         others = [Card("")] * (FULL_DECK_SIZE - 25 * 4)
         return reds + blues + greens + yellows + others
