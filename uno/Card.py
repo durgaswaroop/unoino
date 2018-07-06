@@ -21,4 +21,9 @@ class Card:
             self.is_wild_card = True
 
     def __repr__(self):
-        return f"Card({self.color}, {self.number}, {self.is_action_card})"
+        if self.wild:
+            return f"Card({self.wild})"
+        elif self.action:
+            return f"Card({self.color}, {self.action})"
+        else:
+            return f"Card({self.color}, {self.number})"
