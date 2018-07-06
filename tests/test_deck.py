@@ -19,9 +19,8 @@ class TestDeck(unittest.TestCase):
 
     # Any instance of the Deck should be a card
     def test_each_deck_instance_should_be_a_card(self):
-        from random import randrange
-        random_number = randrange(0, FULL_DECK_SIZE)
-        self.assertIsInstance(self.cards[random_number], Card)
+        for card in self.cards:
+            self.assertIsInstance(card, Card)
 
     # There should be 25 red cards
     def test_deck_has_25_red_card(self):
