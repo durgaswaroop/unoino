@@ -7,6 +7,10 @@ class Card:
     wild = None
 
     def __init__(self, color=None, number=None, action=None, wild=None):
+        if not color and not wild:
+            raise ValueError("Either 'color' or 'wild' parameters should be"
+                             "passed when creating a Card object")
+
         self.color = color
         self.number = number
         if action:  # If an action has been passed, set the action flag

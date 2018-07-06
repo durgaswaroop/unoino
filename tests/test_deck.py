@@ -1,6 +1,7 @@
 import unittest
-from uno.Deck import Deck
+
 from uno.Card import Card
+from uno.Deck import Deck
 
 FULL_DECK_SIZE = 108
 
@@ -145,3 +146,7 @@ class TestDeck(unittest.TestCase):
         wild_draw_4_cards = [c for c in self.cards if
                              c.is_wild_card and c.wild == "WILD_DRAW_FOUR"]
         self.assertEqual(len(wild_draw_4_cards), 4)
+
+    # Card should throw a ValueError if both color & wild parameters arent used
+    def test_Card_should_throw_value_error_if_color_and_wild_arent_given(self):
+        self.assertRaises(ValueError, Card)
