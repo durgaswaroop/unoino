@@ -27,8 +27,9 @@ class Deck:
         action_cards = [Card(col, action=action) for col, action in
                         itertools.product(colors, actions)]
 
-        others= [Card("")] * 8
+        regular_wild_cards = [Card(wild="WILD")] * 4
+        wild_draw_4_cards = [Card(wild="WILD_DRAW_FOUR")] * 4
 
-        return numbered_cards + action_cards + others
+        return numbered_cards + action_cards + regular_wild_cards + wild_draw_4_cards
 
 # cards = Deck().cards

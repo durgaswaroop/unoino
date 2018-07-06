@@ -129,3 +129,20 @@ class TestDeck(unittest.TestCase):
             action_cards_here = [c for c in cards_of_this_color if
                                  c.is_action_card]
             self.assertEqual(len(action_cards_here), 6)
+
+    # There should be 8 overall wild (regular wild and wild draw four)  cards
+    def test_deck_should_have_8_overall_wild_cards(self):
+        all_wild_cards = [c for c in self.cards if c.is_wild_card]
+        self.assertEqual(len(all_wild_cards), 8)
+
+    # There should be 4 actual WILD cards
+    def test_deck_should_have_4_wild_cards(self):
+        wild_cards = [c for c in self.cards if
+                      c.is_wild_card and c.wild == "WILD"]
+        self.assertEqual(len(wild_cards), 4)
+
+    # There should be 4 WILD Draw four cards
+    def test_deck_should_have_4_wild_draw_4cards(self):
+        wild_draw_4_cards = [c for c in self.cards if
+                             c.is_wild_card and c.wild == "WILD_DRAW_FOUR"]
+        self.assertEqual(len(wild_draw_4_cards), 4)
