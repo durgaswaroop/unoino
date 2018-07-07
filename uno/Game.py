@@ -15,3 +15,10 @@ class Game:
 
         self.players = players
         self.cards = deck
+
+    # Start the game
+    def start(self):
+        # Print players
+        player_names = [p.name for p in self.players]
+        names_joined = ', '.join(player_names)
+        print(f"Players: {names_joined}")
