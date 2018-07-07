@@ -2,19 +2,22 @@
 
 The project structure will be created as mentioned [here](http://docs.python-guide.org/en/latest/writing/structure/).
 
-General structure:
+Project structure:
 ```
-README.rst
-LICENSE
-setup.py
-requirements.txt
-sample/__init__.py
-sample/core.py
-sample/helpers.py
-docs/conf.py
-docs/index.rst
-tests/test_basic.py
-tests/test_advanced.py
+README.md
+
+uno/
+|-- __init__.py
+|-- Card.py
+|-- Deck.py
+|-- Game.py
+|-- Player.py
+
+tests/
+|-- __init__.py
+|-- test_card.py
+|-- test_deck,py
+|-- test_game.py
 ```
 
 This entire project will be built following the principles of Test Driven Development.
