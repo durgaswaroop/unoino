@@ -1,5 +1,6 @@
 class Card:
     color = None
+    is_number_card = False
     number = None
     is_action_card = False
     action = None
@@ -13,11 +14,14 @@ class Card:
                              "passed when creating a Card object")
 
         self.color = color
-        self.number = number
-        if action:  # If an action has been passed, set the action flag
+
+        if number is not None: # Explicitly doing this because number can be 0
+            self.number = number
+            self.is_number_card = True
+        elif action:
             self.action = action
             self.is_action_card = True
-        if wild:
+        else:  # Wild
             self.wild = wild
             self.is_wild_card = True
 

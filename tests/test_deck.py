@@ -23,6 +23,11 @@ class TestDeck(unittest.TestCase):
         for card in self.cards:
             self.assertIsInstance(card, Card)
 
+    # There should be 76 numbered cards
+    def test_deck_has_76_numbered_cards(self):
+        numbered_cards = [c for c in self.cards if c.is_number_card]
+        self.assertEqual(len(numbered_cards), 76)
+
     # There should be 25 red cards
     def test_deck_has_25_red_card(self):
         reds = list(filter(lambda card: card.color == "RED", self.cards))
