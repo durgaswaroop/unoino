@@ -45,3 +45,15 @@ class TestGame(unittest.TestCase):
         shuffled_deck = game.shuffled_deck
         self.assertNotEqual(len(shuffled_deck), 0)
         self.assertNotEqual(shuffled_deck, deck)
+
+    # When the game starts the players names should be printed
+    def test_players_names_are_printed(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        # players = [Player()]
+        game = Game(players, deck)
+        captured_out = io.StringIO()
+        sys.stdout = captured_out
+        game.start()
+        sys.stdout = sys.__stdout__
+        self.assertEqual(captured_out.getvalue().strip(),
+                         f"Players: {players[0].name}, {players[1].name}")
