@@ -13,12 +13,15 @@ empty_players = []
 
 class TestGame(unittest.TestCase):
 
-    # Game should raise value error when players < 2
+    # Game should raise value error when num players < 2
     def test_should_raise_value_error_for_zero_or_One_players(self):
         self.assertRaises(ValueError, Game, [], deck)
         self.assertRaises(ValueError, Game, [1], deck)
 
-    # Game
+    # Game should raise value error when num player > 10
+    def test_should_raise_value_error_for_more_than_10_players(self):
+        self.assertRaises(ValueError, Game, [Player()] * 11, deck)
+        self.assertRaises(ValueError, Game, [Player()] * 111, deck)
 
     # Game can't start without a deck. Expect ValueError
     def test_game_raises_error_for_no_deck(self):
