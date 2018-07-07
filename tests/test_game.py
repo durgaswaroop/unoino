@@ -10,3 +10,10 @@ class TestGame(unittest.TestCase):
         self.assertRaises(ValueError, Game, -2)
         self.assertRaises(ValueError, Game, -100)
 
+    # Game can't start without a deck. Expect ValueError
+    def test_game_raises_error_for_no_deck(self):
+        self.assertRaises(ValueError, Game, 10, None)
+
+    # Game can't start with an empty deck. Expect ValueError
+    def test_game_raises_error_on_empy_deck(self):
+        self.assertRaises(ValueError, Game, 10, [])
