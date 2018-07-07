@@ -11,6 +11,7 @@ class Game:
     num_players = None
     discard_pile = None
     dealer = None
+    top_card = None
 
     # Game starts with a non-zero set of players and
     def __init__(self, players, deck):
@@ -50,8 +51,12 @@ class Game:
         num_cards_to_distribute = (self.num_players * CARDS_PER_PLAYER)
         cards_to_distribute = self.shuffled_deck[:num_cards_to_distribute]
 
+        self.shuffled_deck = self.shuffled_deck[num_cards_to_distribute:]
+
         # First Card in the remaining cards starts the discard pile
-        self.discard_pile.append(self.shuffled_deck[num_cards_to_distribute])
+        top_card_in_deck = self.shuffled_deck.pop()
+        self.discard_pile.append(top_card_in_deck)
+        self.top_card = top_card_in_deck
 
         # Shuffled deck will be the rest of the cards
         self.shuffled_deck = self.shuffled_deck[num_cards_to_distribute + 1:]

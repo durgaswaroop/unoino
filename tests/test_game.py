@@ -85,3 +85,10 @@ class TestGame(unittest.TestCase):
         game = Game(players, deck)
         game.start()
         self.assertEqual(game.dealer, 0)  # Zero for the first player
+
+    # When the game starts the top card should be the last card in the pile
+    def test_top_card_is_the_last_card_of_discard_pile(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck)
+        game.start()
+        self.assertEqual(game.top_card, game.discard_pile[-1])
