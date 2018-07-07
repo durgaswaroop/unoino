@@ -5,6 +5,7 @@ class Card:
     action = None
     is_wild_card = False
     wild = None
+    value = None
 
     def __init__(self, color=None, number=None, action=None, wild=None):
         if not color and not wild:
@@ -19,6 +20,16 @@ class Card:
         if wild:
             self.wild = wild
             self.is_wild_card = True
+
+        self.value = self.card_value()
+
+    def card_value(self):
+        if self.is_wild_card:
+            return 50
+        elif self.is_action_card:
+            return 20
+        else:
+            return self.number
 
     def __repr__(self):
         if self.wild:
