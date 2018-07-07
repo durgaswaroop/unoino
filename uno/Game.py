@@ -14,9 +14,10 @@ class Game:
     top_card = None
     is_clockwise = None
     current_player = None
+    output_disabled = False
 
     # Game starts with a non-zero set of players and
-    def __init__(self, players, deck):
+    def __init__(self, players, deck, disable_output=False):
         if len(players) < 2 or len(players) > 10:
             raise ValueError(
                 f"Can't have a game with {len(players)} Players. "
@@ -30,6 +31,7 @@ class Game:
         self.cards = deck
         self.discard_pile = []
         self.is_clockwise = True
+        self.output_disabled = disable_output
 
         self.setup()
 
@@ -50,7 +52,7 @@ class Game:
         self.discard_pile.append(player_card)
 
     def play_turn(self):
-        print(f"Player {self.current_player} is the current player")
+        self.printer(f"Player {self.current_player} is the current player")
 
         # The Player whose turn it is should play
         self.players[self.current_player].play()
@@ -58,13 +60,13 @@ class Game:
     def print_player_names(self):
         player_names = [p.name for p in self.players]
         names_joined = ', '.join(player_names)
-        print(f"Players: {names_joined}")
+        self.printer(f"Players: {names_joined}")
 
     def shuffle_deck(self):
         return random.sample(self.cards, len(self.cards))
 
     def distribute_cards(self):
-        print(f"Player {self.dealer} is the dealer")
+        self.printer(f"Player {self.dealer} is the dealer")
         num_cards_to_distribute = (self.num_players * CARDS_PER_PLAYER)
         cards_to_distribute = self.shuffled_deck[:num_cards_to_distribute]
 
@@ -80,6 +82,10 @@ class Game:
 
         for i, player in enumerate(self.players):
             player.cards = cards_to_distribute[i:: self.num_players]
+
+    def printer(self, stuff):
+        if not self.output_disabled:
+            print(stuff)
 
 # from uno.Player import Player
 # from uno.Deck import Deck

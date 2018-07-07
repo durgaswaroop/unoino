@@ -32,7 +32,7 @@ class TestGame(unittest.TestCase):
 
     # Players should be a list of Player objects
     def test_players_has_objects_of_player_class(self):
-        dummy_game = Game([Player(), Player()], deck)
+        dummy_game = Game([Player(), Player()], deck, disable_output=True)
         players = dummy_game.players
         for player in players:
             self.assertIsInstance(player, Player)
@@ -46,7 +46,7 @@ class TestGame(unittest.TestCase):
 
     # Shuffled deck should be different from the original deck at setup
     def test_shuffeled_deck_is_different_from_original(self):
-        game = Game([Player(), Player()], deck)
+        game = Game([Player(), Player()], deck, disable_output=True)
         shuffled_deck = game.shuffled_deck
         self.assertNotEqual(len(shuffled_deck), 0)
         self.assertNotEqual(shuffled_deck, deck)
@@ -64,50 +64,50 @@ class TestGame(unittest.TestCase):
     # After shuffling, the cards should be distributed to each player
     def test_each_player_has_7_cards_after_setup(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
-        game = Game(players, deck)
+        Game(players, deck, disable_output=True)
         for player in players:
             self.assertEqual(len(player.cards), 7)
 
     # After distribution of cards to players, the remaining should become the pile
     def test_pile_has_1_card_at_beginnin_cards(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
-        game = Game(players, deck)
+        game = Game(players, deck, disable_output=True)
         self.assertEqual(len(game.discard_pile), 1)
 
     # When the game is setup, the first (zeroth index) player should be the dealer
     def test_first_player_is_the_dealer_at_setup(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
-        game = Game(players, deck)
+        game = Game(players, deck, disable_output=True)
         self.assertEqual(game.dealer, 0)  # Zero for the first player
 
     # At the end of game setup the top card should be the last card in the pile
     def test_top_card_is_the_last_card_of_discard_pile(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
-        game = Game(players, deck)
+        game = Game(players, deck, disable_output=True)
         self.assertEqual(game.top_card, game.discard_pile[-1])
 
     # At the end of setup the direction of the game should be clockwise
     def test_initial_direction_is_clockwise(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
-        game = Game(players, deck)
+        game = Game(players, deck, disable_output=True)
         self.assertTrue(game.is_clockwise)
 
     # With Player 0 being the dealer, player 1 should have the first turn
     def test_player_1_has_the_first_turn(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
-        game = Game(players, deck)
+        game = Game(players, deck, disable_output=True)
         self.assertEqual(game.current_player, 1)
 
     # When it is a players turn, they should play a card
     def test_current_player_has_played_a_card(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
-        game = Game(players, deck)
+        game = Game(players, deck, disable_output=True)
         game.start()  # Start the game after setup
         self.assertEqual(len(players[1].cards), 6)  # 1 less than 7
 
     # When the players has played his turn, the pile should have one card more
     def test_pile_has_one_extra_card_after_players_turn(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
-        game = Game(players, deck)
+        game = Game(players, deck, disable_output=True)
         game.start()  # Start the game after setup
         self.assertEqual(len(game.discard_pile), 2)
