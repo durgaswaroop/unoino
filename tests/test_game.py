@@ -73,8 +73,10 @@ class TestGame(unittest.TestCase):
             self.assertEqual(len(player.cards), 7)
 
     # After distribution of cards to players, the remaining should become the pile
-    def test_pile_has_the_remaining_cards(self):
+    def test_pile_has_1_card_at_beginnin_cards(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck)
         game.start()
-        self.assertEqual(len(game.pile), len(deck) - len(players) * 7)
+        self.assertEqual(len(game.discard_pile), 1)
+
+
