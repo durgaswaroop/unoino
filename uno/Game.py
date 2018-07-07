@@ -1,7 +1,11 @@
+import random
+
+
 # A Game needs Players and a Deck of cards
 class Game:
     players = None
     cards = None
+    shuffled_deck = None
 
     # Game starts with a non-zero set of players and
     def __init__(self, players, deck):
@@ -22,3 +26,9 @@ class Game:
         player_names = [p.name for p in self.players]
         names_joined = ', '.join(player_names)
         print(f"Players: {names_joined}")
+
+        # Shuffle deck
+        self.shuffled_deck = self.shuffle_deck()
+
+    def shuffle_deck(self):
+        return random.sample(self.cards, len(self.cards))

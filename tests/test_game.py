@@ -37,3 +37,11 @@ class TestGame(unittest.TestCase):
         game_players = game.players
         for player in game_players:
             self.assertEqual(len(player.cards), 0)
+
+    # Shuffled deck should be different from the original deck on start
+    def test_shuffeled_deck_is_different_from_original(self):
+        game = Game([Player(), Player()], deck)
+        game.start()
+        shuffled_deck = game.shuffled_deck
+        self.assertNotEqual(len(shuffled_deck), 0)
+        self.assertNotEqual(shuffled_deck, deck)
