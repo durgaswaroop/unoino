@@ -9,6 +9,7 @@ class Game:
     cards = None
     shuffled_deck = None
     num_players = None
+    pile = None
 
     # Game starts with a non-zero set of players and
     def __init__(self, players, deck):
@@ -40,8 +41,11 @@ class Game:
         return random.sample(self.cards, len(self.cards))
 
     def distribute_cards(self):
-        cards_to_distribute = \
-            self.shuffled_deck[:(self.num_players * CARDS_PER_PLAYER)]
+        num_cards_to_distribute = (self.num_players * CARDS_PER_PLAYER)
+        cards_to_distribute = self.shuffled_deck[:num_cards_to_distribute]
+
+        # Cards remained after distributing become the pile
+        self.pile = self.shuffled_deck[num_cards_to_distribute:]
 
         for i, player in enumerate(self.players):
             player.cards = cards_to_distribute[i:: self.num_players]

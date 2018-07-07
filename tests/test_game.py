@@ -6,7 +6,6 @@ from uno.Deck import Deck
 from uno.Game import Game
 from uno.Player import Player
 
-empty_deck = []
 deck = Deck().cards
 empty_players = []
 
@@ -72,3 +71,10 @@ class TestGame(unittest.TestCase):
         game.start()
         for player in players:
             self.assertEqual(len(player.cards), 7)
+
+    # After distribution of cards to players, the remaining should become the pile
+    def test_pile_has_the_remaining_cards(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck)
+        game.start()
+        self.assertEqual(len(game.pile), len(deck) - len(players) * 7)
