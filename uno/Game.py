@@ -1,5 +1,7 @@
 import random
 
+CARDS_PER_PLAYER = 7
+
 
 # A Game needs Players and a Deck of cards
 class Game:
@@ -30,5 +32,22 @@ class Game:
         # Shuffle deck
         self.shuffled_deck = self.shuffle_deck()
 
+        self.distribute_cards()
+
     def shuffle_deck(self):
         return random.sample(self.cards, len(self.cards))
+
+    def distribute_cards(self):
+        num_players = len(self.players)
+        cards_to_distribute = \
+            self.shuffled_deck[:(num_players * CARDS_PER_PLAYER)]
+
+        for i, player in enumerate(self.players):
+            player.cards = cards_to_distribute[i:: num_players]
+
+
+# from uno.Player import Player
+# from uno.Deck import Deck
+#
+# game = Game([Player("DSP", []), Player("SPD", [])], Deck().cards)
+# game.start()

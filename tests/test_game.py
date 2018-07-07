@@ -1,3 +1,5 @@
+import io
+import sys
 import unittest
 
 from uno.Deck import Deck
@@ -15,6 +17,8 @@ class TestGame(unittest.TestCase):
     def test_should_raise_value_error_for_zero_or_One_players(self):
         self.assertRaises(ValueError, Game, [], deck)
         self.assertRaises(ValueError, Game, [1], deck)
+
+    # Game
 
     # Game can't start without a deck. Expect ValueError
     def test_game_raises_error_for_no_deck(self):
@@ -57,3 +61,11 @@ class TestGame(unittest.TestCase):
         sys.stdout = sys.__stdout__
         self.assertEqual(captured_out.getvalue().strip(),
                          f"Players: {players[0].name}, {players[1].name}")
+
+    # After shuffling, the cards should be distributed to each player
+    def test_each_player_has_7_cards(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck)
+        game.start()
+        for player in players:
+            self.assertEqual(len(player.cards), 7)
