@@ -5,7 +5,7 @@ from uno.Player import Player
 cards = Deck().cards
 players = [Player("DSP", []), Player("SPD", []), Player("NAR", [])]
 game = Game(players, cards)
-game.start()
+game.setup()
 
 print(game.players)
 print()

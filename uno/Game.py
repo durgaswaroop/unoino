@@ -31,8 +31,8 @@ class Game:
         self.discard_pile = []
         self.is_clockwise = True
 
-    # Start the game
-    def start(self):
+    # Set the game
+    def setup(self):
         self.print_player_names()
 
         # Shuffle deck
