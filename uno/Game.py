@@ -12,6 +12,8 @@ class Game:
     discard_pile = None
     dealer = None
     top_card = None
+    is_clockwise = None
+    current_player = None
 
     # Game starts with a non-zero set of players and
     def __init__(self, players, deck):
@@ -27,6 +29,7 @@ class Game:
         self.num_players = len(players)
         self.cards = deck
         self.discard_pile = []
+        self.is_clockwise = True
 
     # Start the game
     def start(self):
@@ -36,6 +39,7 @@ class Game:
         self.shuffled_deck = self.shuffle_deck()
 
         self.dealer = 0
+        self.current_player = self.dealer + 1
         self.distribute_cards()
 
     def print_player_names(self):

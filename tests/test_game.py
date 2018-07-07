@@ -92,3 +92,17 @@ class TestGame(unittest.TestCase):
         game = Game(players, deck)
         game.start()
         self.assertEqual(game.top_card, game.discard_pile[-1])
+
+    # At the beginning the direction of the game should be clockwise
+    def test_initial_direction_is_clockwise(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck)
+        game.start()
+        self.assertTrue(game.is_clockwise)
+
+    # With Player 0 being the dealer, player 1 should have the first turn
+    def test_player_1_has_the_first_turn(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck)
+        game.start()
+        self.assertEqual(game.current_player, 1)
