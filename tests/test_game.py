@@ -38,16 +38,15 @@ class TestGame(unittest.TestCase):
             self.assertIsInstance(player, Player)
 
     # Before the game setup the players should have no cards
-    def test_players_have_no_cards_at_start(self):
-        game = Game([Player(), Player()], deck)
-        game_players = game.players
-        for player in game_players:
-            self.assertEqual(len(player.cards), 0)
+    # def test_players_have_no_cards_at_start(self):
+    #     game = Game([Player(), Player()], deck)
+    #     game_players = game.players
+    #     for player in game_players:
+    #         self.assertEqual(len(player.cards), 0)
 
     # Shuffled deck should be different from the original deck at setup
     def test_shuffeled_deck_is_different_from_original(self):
         game = Game([Player(), Player()], deck)
-        game.setup()
         shuffled_deck = game.shuffled_deck
         self.assertNotEqual(len(shuffled_deck), 0)
         self.assertNotEqual(shuffled_deck, deck)
@@ -55,11 +54,9 @@ class TestGame(unittest.TestCase):
     # When the game is being setup the players names should be printed
     def test_players_names_are_printed(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
-        # players = [Player()]
-        game = Game(players, deck)
         captured_out = io.StringIO()
         sys.stdout = captured_out
-        game.setup()
+        Game(players, deck)
         sys.stdout = sys.__stdout__
         players_string = f"Players: {players[0].name}, {players[1].name}"
         self.assertTrue(players_string in captured_out.getvalue())
@@ -68,7 +65,6 @@ class TestGame(unittest.TestCase):
     def test_each_player_has_7_cards_after_setup(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck)
-        game.setup()
         for player in players:
             self.assertEqual(len(player.cards), 7)
 
@@ -76,42 +72,36 @@ class TestGame(unittest.TestCase):
     def test_pile_has_1_card_at_beginnin_cards(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck)
-        game.setup()
         self.assertEqual(len(game.discard_pile), 1)
 
     # When the game is setup, the first (zeroth index) player should be the dealer
     def test_first_player_is_the_dealer_at_setup(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck)
-        game.setup()
         self.assertEqual(game.dealer, 0)  # Zero for the first player
 
     # At the end of game setup the top card should be the last card in the pile
     def test_top_card_is_the_last_card_of_discard_pile(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck)
-        game.setup()
         self.assertEqual(game.top_card, game.discard_pile[-1])
 
     # At the end of setup the direction of the game should be clockwise
     def test_initial_direction_is_clockwise(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck)
-        game.setup()
         self.assertTrue(game.is_clockwise)
 
     # With Player 0 being the dealer, player 1 should have the first turn
     def test_player_1_has_the_first_turn(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck)
-        game.setup()
         self.assertEqual(game.current_player, 1)
 
     # When it is a players turn, they should play a card
     def test_current_player_has_played_a_card(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck)
-        game.setup()
         game.start()  # Start the game after setup
         self.assertEqual(len(players[1].cards), 6)  # 1 less than 7
 
@@ -119,6 +109,5 @@ class TestGame(unittest.TestCase):
     def test_pile_has_one_extra_card_after_players_turn(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck)
-        game.setup()
         game.start()  # Start the game after setup
         self.assertEqual(len(game.discard_pile), 2)

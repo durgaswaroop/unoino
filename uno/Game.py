@@ -31,6 +31,8 @@ class Game:
         self.discard_pile = []
         self.is_clockwise = True
 
+        self.setup()
+
     # Set the game
     def setup(self):
         self.print_player_names()
