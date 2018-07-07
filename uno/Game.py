@@ -5,8 +5,10 @@ class Game:
 
     # Game starts with a non-zero set of players and
     def __init__(self, players, deck):
-        if not players:
-            raise ValueError("Can't have a game with no Players. Go home.")
+        if len(players) < 2:
+            raise ValueError(
+                f"Can't have a game with {len(players)} Players. Minimum is 2."
+                f"Go home.")
 
         if not deck:
             raise ValueError("Can't start a game without a deck of cards")
