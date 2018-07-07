@@ -107,3 +107,18 @@ class TestGame(unittest.TestCase):
         game.setup()
         self.assertEqual(game.current_player, 1)
 
+    # When it is a players turn, they should play a card
+    def test_current_player_has_played_a_card(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck)
+        game.setup()
+        game.start()  # Start the game after setup
+        self.assertEqual(len(players[1].cards), 6)  # 1 less than 7
+
+    # When the players has played his turn, the pile should have one card more
+    def test_pile_has_one_extra_card_after_players_turn(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck)
+        game.setup()
+        game.start()  # Start the game after setup
+        self.assertEqual(len(game.discard_pile), 2)

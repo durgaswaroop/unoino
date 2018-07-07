@@ -42,6 +42,17 @@ class Game:
         self.current_player = self.dealer + 1
         self.distribute_cards()
 
+    # Start the game
+    def start(self):
+        player_card = self.play_turn()
+        self.discard_pile.append(player_card)
+
+    def play_turn(self):
+        print(f"Player {self.current_player} is the current player")
+
+        # The Player whose turn it is should play
+        self.players[self.current_player].play()
+
     def print_player_names(self):
         player_names = [p.name for p in self.players]
         names_joined = ', '.join(player_names)
