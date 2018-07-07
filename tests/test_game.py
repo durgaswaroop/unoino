@@ -10,7 +10,3 @@ class TestGame(unittest.TestCase):
         self.assertRaises(ValueError, Game, -2)
         self.assertRaises(ValueError, Game, -100)
 
-    # If Game has non-zero players, game should have non-zero players
-    def test_player_numbers(self):
-        self.assertEqual(10, Game(players=10).players)
-        self.assertEqual(100, Game(players=100).players)
