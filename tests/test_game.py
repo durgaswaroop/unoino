@@ -61,8 +61,8 @@ class TestGame(unittest.TestCase):
         sys.stdout = captured_out
         game.start()
         sys.stdout = sys.__stdout__
-        self.assertEqual(captured_out.getvalue().strip(),
-                         f"Players: {players[0].name}, {players[1].name}")
+        players_string = f"Players: {players[0].name}, {players[1].name}"
+        self.assertTrue(players_string in captured_out.getvalue())
 
     # After shuffling, the cards should be distributed to each player
     def test_each_player_has_7_cards(self):
@@ -79,4 +79,9 @@ class TestGame(unittest.TestCase):
         game.start()
         self.assertEqual(len(game.discard_pile), 1)
 
-
+    # When you start the game, the first player should be the dealer
+    def test_first_player_is_the_dealer_at_the_start(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck)
+        game.start()
+        self.assertEqual(game.dealer, 0)  # Zero for the first player

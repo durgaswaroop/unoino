@@ -10,6 +10,7 @@ class Game:
     shuffled_deck = None
     num_players = None
     discard_pile = None
+    dealer = None
 
     # Game starts with a non-zero set of players and
     def __init__(self, players, deck):
@@ -28,20 +29,24 @@ class Game:
 
     # Start the game
     def start(self):
-        # Print players
-        player_names = [p.name for p in self.players]
-        names_joined = ', '.join(player_names)
-        print(f"Players: {names_joined}")
+        self.print_player_names()
 
         # Shuffle deck
         self.shuffled_deck = self.shuffle_deck()
 
+        self.dealer = 0
         self.distribute_cards()
+
+    def print_player_names(self):
+        player_names = [p.name for p in self.players]
+        names_joined = ', '.join(player_names)
+        print(f"Players: {names_joined}")
 
     def shuffle_deck(self):
         return random.sample(self.cards, len(self.cards))
 
     def distribute_cards(self):
+        print(f"Player {self.dealer} is the dealer")
         num_cards_to_distribute = (self.num_players * CARDS_PER_PLAYER)
         cards_to_distribute = self.shuffled_deck[:num_cards_to_distribute]
 
