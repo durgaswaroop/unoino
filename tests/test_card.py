@@ -42,3 +42,24 @@ class TestCard(unittest.TestCase):
         card3 = Card(wild="WILD_DRAW_FOUR", color="RED")
         card4 = Card(wild="WILD_DRAW_FOUR", color="RED")
         self.assertEqual(card3, card4)
+
+    # A Skip card should return true for "is_skip"
+    def test_that_is_skip_is_true_for_skip_cards(self):
+        card1 = Card("BLUE", action="SKIP")
+        card2 = Card("RED", action="SKIP")
+        self.assertTrue(card1.is_skip)
+        self.assertTrue(card2.is_skip)
+
+    # A draw two should return true for "is_d2"
+    def test_that_is_d2_is_true_for_draw_two_cards(self):
+        card1 = Card("BLUE", action="DRAW_TWO")
+        card2 = Card("GREEN", action="DRAW_TWO")
+        self.assertTrue(card1.is_d2)
+        self.assertTrue(card2.is_d2)
+
+    # A reverse card should return true for "is_rev"
+    def test_that_is_rev_on_reverse_card_is_true(self):
+        card1 = Card("BLUE", action="REVERSE")
+        card2 = Card("RED", action="REVERSE")
+        self.assertTrue(card1.is_rev)
+        self.assertTrue(card2.is_rev)

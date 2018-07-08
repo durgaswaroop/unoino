@@ -4,6 +4,9 @@ class Card:
     number = None
     is_action_card = False
     action = None
+    is_skip = False
+    is_d2 = False
+    is_rev = False
     is_wild_card = False
     wild = None
     value = None
@@ -21,6 +24,12 @@ class Card:
         elif action:
             self.action = action
             self.is_action_card = True
+            if action == "SKIP":
+                self.is_skip = True
+            elif action == "DRAW_TWO":
+                self.is_d2 = True
+            else:  # reverse
+                self.is_rev = True
         else:  # Wild
             self.wild = wild
             self.is_wild_card = True
