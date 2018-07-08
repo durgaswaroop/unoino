@@ -20,8 +20,11 @@ players = [Player("DSP", []), Player("SPD", [])]
 #     game = Game(players, cards)
 
 game = Game(players, cards)
-
+print(players[0].cards)
+print()
 print(players[1].cards)
-print(game.top_card)
+
+# print(players[1].cards)
+# print(game.top_card)
 
 game.start()

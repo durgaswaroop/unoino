@@ -50,13 +50,16 @@ class Game:
 
     # Start the game
     def start(self):
+        # for i in range(20):
         self.play_turn()
+        self.current_player = self.get_next_player()
         # self.discard_pile.append(player_card)
 
     def play_turn(self):
         self.printer('-' * 40)
         current_player = self.players[self.current_player]
         self.printer(f"Current Player : {current_player.name}")
+        self.printer(f"Top card : {self.top_card}")
 
         # If the current top card is either a +2 or +4 and the last player
         # decision was PLAY, it means that the current player has to pick either
@@ -66,9 +69,11 @@ class Game:
             if self.top_card.is_d2:
                 [current_player.cards.append(self.shuffled_deck.pop())
                  for _ in range(2)]
+                self.printer(f"{current_player.name} took 2 cards")
             else:
                 [current_player.cards.append(self.shuffled_deck.pop())
                  for _ in range(4)]
+                self.printer(f"{current_player.name} took 4 cards")
             self.last_player_decision = "TAKE"
             self.printer('-' * 40)
             return
@@ -79,7 +84,8 @@ class Game:
 
         if decision == "PLAY":
             played_card = current_player.play(self.top_card)
-            self.printer(f"{current_player.name} played {played_card}")
+            self.printer(f"{current_player.name} played {played_card}, "
+                         f"{len(current_player.cards)}")
             self.discard_pile.append(played_card)
             self.top_card = played_card
 
