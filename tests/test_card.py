@@ -63,3 +63,8 @@ class TestCard(unittest.TestCase):
         card2 = Card("RED", action="REVERSE")
         self.assertTrue(card1.is_rev)
         self.assertTrue(card2.is_rev)
+
+    # A Draw four card should have the flag "is_d4" set
+    def test_draw_four_card_should_have_is_d4_flag_set(self):
+        card1 = Card(wild="WILD_DRAW_FOUR")
+        self.assertTrue(card1.is_d4)

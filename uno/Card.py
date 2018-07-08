@@ -6,6 +6,7 @@ class Card:
     action = None
     is_skip = False
     is_d2 = False
+    is_d4 = False
     is_rev = False
     is_wild_card = False
     wild = None
@@ -33,6 +34,8 @@ class Card:
         else:  # Wild
             self.wild = wild
             self.is_wild_card = True
+            if wild == "WILD_DRAW_FOUR":
+                self.is_d4 = True
 
         self.value = self.card_value()
 
