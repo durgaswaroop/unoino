@@ -35,7 +35,8 @@ def is_played_card_valid(played_card, top_card):
         return True
 
     # Match two cards if they've the same color
-    if played_card.color == top_card.color:  # Same colors are ok
+    if (played_card.color and top_card.color
+            and played_card.color == top_card.color):  # Same colors are ok
         return True
 
     return False
