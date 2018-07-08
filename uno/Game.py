@@ -52,10 +52,11 @@ class Game:
         self.discard_pile.append(player_card)
 
     def play_turn(self):
-        self.printer(f"Player {self.current_player} is the current player")
+        self.printer(
+            f"Current Player : {self.players[self.current_player].name}")
 
         # The Player whose turn it is should play
-        self.players[self.current_player].play()
+        return self.players[self.current_player].play(self.top_card)
 
     def print_player_names(self):
         player_names = [p.name for p in self.players]
@@ -63,10 +64,11 @@ class Game:
         self.printer(f"Players: {names_joined}")
 
     def shuffle_deck(self):
+        # return self.cards
         return random.sample(self.cards, len(self.cards))
 
     def distribute_cards(self):
-        self.printer(f"Player {self.dealer} is the dealer")
+        self.printer(f"Dealer:  {self.players[self.dealer].name}")
         num_cards_to_distribute = (self.num_players * CARDS_PER_PLAYER)
         cards_to_distribute = self.shuffled_deck[:num_cards_to_distribute]
 
