@@ -321,3 +321,53 @@ class TestGame(unittest.TestCase):
         # Next turn. This player should pick two cards
         game.play_turn()
         self.assertEqual(len(players[2].cards), 9)
+
+    # WIld Draw four should be played only when there are no other valid cards
+    def test_player_should_play_draw_four_only_if_no_other_valid_cards(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="REVERSE")
+        game.discard_pile = [Card("BLUE", action="REVERSE")]
+
+        players[1].cards = [Card("YELLOW", action="REVERSE"),
+                            Card("RED", 2), Card("GREEN", action="SKIP"),
+                            Card(wild="WILD_DRAW_FOUR"),
+                            Card("BLUE", action="DRAW_TWO")]
+        # Blue Draw two -> value = 20
+        # Yellow Reverse -> Value = 20
+        # Wild Draw Four -> value = 50
+        game.play_turn()
+
+        # ALtghough Draw four is the card with the highest value but since we
+        # can still play yellow reverse or blue draw two, draw four shouldn't be
+        # played
+        self.assertFalse(game.top_card.is_wild_card)
+        self.assertFalse(game.top_card.is_d4)
+
+    # The player when playing should play the card with the highest value
+    def test_player_plays_the_card_with_the_highest_value(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="REVERSE")
+        game.discard_pile = [Card("BLUE", action="REVERSE")]
+
+        players[1].cards = [Card("YELLOW", action="REVERSE"),
+                            Card("RED", 2), Card("GREEN", action="SKIP"),
+                            Card(wild="WILD"),
+                            Card("BLUE", action="DRAW_TWO")]
+        # Blue Draw two -> value = 20
+        # Yellow Reverse -> Value = 20
+        # Wild Draw Four -> value = 50l
+        game.play_turn()
+        self.assertTrue(game.top_card.is_wild_card)
+        self.assertTrue(game.top_card.wild == "WILD")
