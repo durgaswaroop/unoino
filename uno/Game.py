@@ -58,7 +58,22 @@ class Game:
         current_player = self.players[self.current_player]
         self.printer(f"Current Player : {current_player.name}")
 
-        # Get players decision
+        # If the current top card is either a +2 or +4 and the last player
+        # decision was PLAY, it means that the current player has to pick either
+        # two or 4 cards
+        if self.last_player_decision == "PLAY" and (
+                self.top_card.is_d2 or self.top_card.is_d4):
+            if self.top_card.is_d2:
+                [current_player.cards.append(self.shuffled_deck.pop())
+                 for _ in range(2)]
+            else:
+                [current_player.cards.append(self.shuffled_deck.pop())
+                 for _ in range(4)]
+            self.last_player_decision = "TAKE"
+            self.printer('-' * 40)
+            return
+
+            # Get players decision
         decision = current_player.decide_action(self.top_card)
         self.last_player_decision = decision
 
@@ -123,7 +138,9 @@ class Game:
             print(stuff)
 
 # from uno.Player import Player
+# from uno.Card import Card
 # from uno.Deck import Deck
 #
+# deck = Deck().cards
 # game = Game([Player("DSP", []), Player("SPD", [])], Deck().cards)
 # game.start()
