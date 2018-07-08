@@ -19,6 +19,9 @@
 
 # Checks if the played card is valid for the given top card
 def is_played_card_valid(played_card, top_card):
+    if played_card.is_wild_card:
+        return True
+
     # Match two wild cards if they are the same wild
     if (played_card.is_wild_card and top_card.is_wild_card
             and played_card.wild == top_card.wild):

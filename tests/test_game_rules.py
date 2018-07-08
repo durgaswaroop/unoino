@@ -62,9 +62,9 @@ class TestGameRules(unittest.TestCase):
         self.assertTrue(
             is_played_card_valid(top_card=red_wdf, played_card=red_wdf))
 
-    # A wild card and a wild draw four of different colors don't match
-    def test_two_different_wild_cards_dont_match(self):
-        self.assertFalse(
+    # A wild card and a wild draw four of different colors still match
+    def test_two_different_wild_cards__match(self):
+        self.assertTrue(
             is_played_card_valid(top_card=red_wdf, played_card=blue_wild))
 
     # A red card should match a red wild card
@@ -97,12 +97,12 @@ class TestGameRules(unittest.TestCase):
         self.assertFalse(
             is_played_card_valid(top_card=blue_zero, played_card=red_rev))
 
-    # A red wild on a blue wild draw four is invalid
-    def test_red_wild_on_blue_wild_draw_four_is_invalid(self):
-        self.assertFalse(
+    # A red wild on a blue wild draw four is valid
+    def test_red_wild_on_blue_wild_draw_four_is_valid(self):
+        self.assertTrue(
             is_played_card_valid(top_card=blue_wdf, played_card=red_wild))
 
-    # A red draw four on a blue skip is invalid
-    def test_red_draw_four_on_blue_skip_is_invalid(self):
-        self.assertFalse(
+    # A red draw four on a blue skip is valid
+    def test_red_draw_four_on_blue_skip_is_valid(self):
+        self.assertTrue(
             is_played_card_valid(top_card=blue_skip, played_card=red_wdf))
