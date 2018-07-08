@@ -20,3 +20,25 @@ class TestCard(unittest.TestCase):
     def test_wild_card_has_value_50(self):
         self.assertEqual(Card(wild="WILD").value, 50)
         self.assertEqual(Card(wild="WILD_DRAW_FOUR").value, 50)
+
+    # Two numbered cards with same color and same number should be equal
+    def test_number_cards_with_same_color_and_number_are_equal(self):
+        card1 = Card("BLUE", 5)
+        card2 = Card("BLUE", 5)
+        self.assertEqual(card1, card2)
+
+    # Two actions cards with same color and same action should be equal
+    def test_action_cards_with_same_color_and_action_are_equal(self):
+        card1 = Card("BLUE", action="SKIP")
+        card2 = Card("BLUE", action="SKIP")
+        self.assertEqual(card1, card2)
+
+    # Two wild cards with same color and same action should be equal
+    def test_wild_cards_with_same_wildness_are_equal(self):
+        card1 = Card(wild="WILD")
+        card2 = Card(wild="WILD")
+        self.assertEqual(card1, card2)
+
+        card3 = Card(wild="WILD_DRAW_FOUR", color="RED")
+        card4 = Card(wild="WILD_DRAW_FOUR", color="RED")
+        self.assertEqual(card3, card4)

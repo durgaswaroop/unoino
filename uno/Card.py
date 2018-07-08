@@ -15,7 +15,7 @@ class Card:
 
         self.color = color
 
-        if number is not None: # Explicitly doing this because number can be 0
+        if number is not None:  # Explicitly doing this because number can be 0
             self.number = number
             self.is_number_card = True
         elif action:
@@ -42,3 +42,6 @@ class Card:
             return f"Card({self.color}, {self.action})"
         else:
             return f"Card({self.color}, {self.number})"
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
