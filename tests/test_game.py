@@ -193,11 +193,11 @@ class TestGame(unittest.TestCase):
 
         # Current Player = 1, Next player should be = 2
         game.current_player = 1
-        self.assertEqual(game.next_player(), 2)
+        self.assertEqual(game.get_next_player(), 2)
 
         # Current Player = 2, Next player = 0
         game.current_player = 2
-        self.assertEqual(game.next_player(), 0)
+        self.assertEqual(game.get_next_player(), 0)
 
     # Check the next player in anti-clockwise
     def test_next_player_in_anti_clockwise(self):
@@ -206,15 +206,15 @@ class TestGame(unittest.TestCase):
 
         # Current Player = 1, Next player should be = 0
         game.current_player = 1
-        self.assertEqual(game.next_player(), 0)
+        self.assertEqual(game.get_next_player(), 0)
 
         # Current Player = 2, Next player = 1
         game.current_player = 2
-        self.assertEqual(game.next_player(), 1)
+        self.assertEqual(game.get_next_player(), 1)
 
         # Current Player = 0, Next player = 2
         game.current_player = 0
-        self.assertEqual(game.next_player(), 2)
+        self.assertEqual(game.get_next_player(), 2)
 
     # The card played by a player should become the new top card
     def test_top_card_should_be_updated_when_a_player_plays(self):
@@ -230,3 +230,23 @@ class TestGame(unittest.TestCase):
                             Card("GREEN", action="DRAW_TWO")]
         game.start()
         self.assertEqual(game.top_card, game.discard_pile[-1])
+
+    # When a player plays skip, the next player should be skipped
+    def test_skip_should_skip_the_next_player(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="SKIP")
+        game.discard_pile = [Card("BLUE", action="SKIP")]
+
+        players[1].cards = [Card("RED", action="REVERSE"), Card("YELLOW", 4),
+                            Card("RED", 2), Card("GREEN", action="SKIP")]
+
+        # The player has to play skip here as that is the only valid card
+        game.play_turn()
+
+        self.assertEqual(game.next_player, 0)

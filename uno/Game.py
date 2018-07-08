@@ -16,6 +16,7 @@ class Game:
     current_player = None
     output_disabled = False
     last_player_decision = None
+    next_player = None
 
     # Game starts with a non-zero set of players and
     def __init__(self, players, deck, disable_output=False):
@@ -53,6 +54,7 @@ class Game:
         # self.discard_pile.append(player_card)
 
     def play_turn(self):
+        self.printer('-' * 40)
         current_player = self.players[self.current_player]
         self.printer(f"Current Player : {current_player.name}")
 
@@ -65,10 +67,16 @@ class Game:
             self.printer(f"{current_player.name} played {played_card}")
             self.discard_pile.append(played_card)
             self.top_card = played_card
+
+            # If played card is "skip", update the next player
+            if played_card.is_action_card and played_card.action == "SKIP":
+                self.next_player = self.get_next_player(with_skip=True)
+
         else:  # TAKE
             self.printer(f"{current_player.name} will take a card")
             card_to_take = self.shuffled_deck.pop()
             current_player.cards.append(card_to_take)
+        self.printer('-' * 40)
 
     def print_player_names(self):
         player_names = [p.name for p in self.players]
@@ -79,11 +87,13 @@ class Game:
         # return self.cards
         return random.sample(self.cards, len(self.cards))
 
-    def next_player(self):
+    def get_next_player(self, with_skip=False):
         if self.is_clockwise:
-            return (self.current_player + 1) % (self.num_players)
+            return ((self.current_player + 2) if with_skip
+                    else (self.current_player + 1)) % self.num_players
         else:
-            return (self.current_player - 1) % (self.num_players)
+            return ((self.current_player - 2) if with_skip
+                    else (self.current_player - 1)) % (self.num_players)
 
     def distribute_cards(self):
         self.printer(f"Dealer:  {self.players[self.dealer].name}")
