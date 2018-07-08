@@ -68,10 +68,15 @@ class Game:
             self.discard_pile.append(played_card)
             self.top_card = played_card
 
-            # If played card is "skip", update the next player
-            if played_card.is_action_card and played_card.action == "SKIP":
+            if played_card.is_skip:
+                # If played card is "skip", update the next player
                 self.next_player = self.get_next_player(with_skip=True)
-
+            elif played_card.is_rev:
+                # If reverse, change direction and update next player
+                self.is_clockwise = not self.is_clockwise
+                self.next_player = self.get_next_player()
+            elif played_card.is_wild_card and played_card.wild == "WILD":
+                self.next_player = self.get_next_player()
         else:  # TAKE
             self.printer(f"{current_player.name} will take a card")
             card_to_take = self.shuffled_deck.pop()

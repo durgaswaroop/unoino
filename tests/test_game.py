@@ -250,3 +250,48 @@ class TestGame(unittest.TestCase):
         game.play_turn()
 
         self.assertEqual(game.next_player, 0)
+
+    # When a player plays reverse, the direction should change
+    # and the next player should  be updated too
+    def test_reverse_should_flip_direction_and_change_next_player(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="REVERSE")
+        game.discard_pile = [Card("BLUE", action="REVERSE")]
+
+        players[1].cards = [Card("RED", action="REVERSE"), Card("YELLOW", 4),
+                            Card("RED", 2), Card("GREEN", action="SKIP")]
+
+        # Here the reverse card is the only valid play
+        game.play_turn()
+
+        self.assertFalse(game.is_clockwise)
+        self.assertEqual(game.next_player, 0)
+
+    # When a player plays a Wild card, they should set a color for that too
+    def test_wild_cards_played_should_have_a_color_associated_with_them(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="REVERSE")
+        game.discard_pile = [Card("BLUE", action="REVERSE")]
+
+        players[1].cards = [Card("RED", 5), Card("YELLOW", 4),
+                            Card("RED", 2), Card("GREEN", action="SKIP"),
+                            Card(wild="WILD")]
+
+        # Here the wild card is the only valid play
+        game.play_turn()
+
+        self.assertTrue(game.top_card.is_wild_card)
+        self.assertTrue(game.top_card.color)  # Shouldn't be None
+

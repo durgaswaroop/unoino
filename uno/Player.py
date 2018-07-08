@@ -13,6 +13,11 @@ class Player:
         valid_cards = [card for card in self.cards
                        if is_played_card_valid(card, topcard)]
         card_to_play = valid_cards[0]
+
+        # Have to say which color this wild card should be
+        if card_to_play.is_wild_card:
+            card_to_play.color = "RED"
+
         self.cards.remove(card_to_play)
         return card_to_play
 
