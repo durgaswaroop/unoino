@@ -185,3 +185,33 @@ class TestGame(unittest.TestCase):
         players[1].cards = [Card("RED", 5)] * 7
         game.start()
         self.assertEqual(game.last_player_decision, "TAKE")
+
+    # Check the next player in clockwise
+    def test_next_player_in_clockwise(self):
+        game = Game([Player()] * 3, deck, disable_output=True)
+        game.is_clockwise = True
+
+        # Current Player = 1, Next player should be = 2
+        game.current_player = 1
+        self.assertEqual(game.next_player(), 2)
+
+        # Current Player = 2, Next player = 0
+        game.current_player = 2
+        self.assertEqual(game.next_player(), 0)
+
+    # Check the next player in anti-clockwise
+    def test_next_player_in_anti_clockwise(self):
+        game = Game([Player()] * 3, deck, disable_output=True)
+        game.is_clockwise = False
+
+        # Current Player = 1, Next player should be = 0
+        game.current_player = 1
+        self.assertEqual(game.next_player(), 0)
+
+        # Current Player = 2, Next player = 1
+        game.current_player = 2
+        self.assertEqual(game.next_player(), 1)
+
+        # Current Player = 0, Next player = 2
+        game.current_player = 0
+        self.assertEqual(game.next_player(), 2)

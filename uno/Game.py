@@ -78,6 +78,12 @@ class Game:
         # return self.cards
         return random.sample(self.cards, len(self.cards))
 
+    def next_player(self):
+        if self.is_clockwise:
+            return (self.current_player + 1) % (self.num_players)
+        else:
+            return (self.current_player - 1) % (self.num_players)
+
     def distribute_cards(self):
         self.printer(f"Dealer:  {self.players[self.dealer].name}")
         num_cards_to_distribute = (self.num_players * CARDS_PER_PLAYER)
