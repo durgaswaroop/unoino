@@ -2,8 +2,10 @@ import io
 import sys
 import unittest
 
+from uno.Card import Card
 from uno.Deck import Deck
 from uno.Game import Game
+from uno.GameRules import is_played_card_valid
 from uno.Player import Player
 
 deck = Deck().cards
@@ -102,6 +104,13 @@ class TestGame(unittest.TestCase):
     def test_current_player_has_played_a_card(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck, disable_output=True)
+        game.top_card = Card("BLUE", 4)
+        game.discard_pile = [Card("BLUE", 4)]
+
+        players[1].cards = [Card("RED", action="REVERSE"), Card("YELLOW", 4),
+                            Card("RED", 2), Card("GREEN", 8),
+                            Card("BLUE", 8), Card("GREEN", action="DRAW_TWO"),
+                            Card("GREEN", action="DRAW_TWO")]
         game.start()  # Start the game after setup
         self.assertEqual(len(players[1].cards), 6)  # 1 less than 7
 
@@ -109,5 +118,42 @@ class TestGame(unittest.TestCase):
     def test_pile_has_one_extra_card_after_players_turn(self):
         players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
         game = Game(players, deck, disable_output=True)
+        game.top_card = Card("BLUE", 4)
+        game.discard_pile = [Card("BLUE", 4)]
+
+        players[1].cards = [Card("RED", action="REVERSE"), Card("YELLOW", 4),
+                            Card("RED", 2), Card("GREEN", 8),
+                            Card("BLUE", 8), Card("GREEN", action="DRAW_TWO"),
+                            Card("GREEN", action="DRAW_TWO")]
         game.start()  # Start the game after setup
         self.assertEqual(len(game.discard_pile), 2)
+
+    # The card played by player should be a valid card for the existing top card
+    def test_player_played_a_valid_card(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", 4)
+        game.discard_pile = [Card("BLUE", 4)]
+
+        players[1].cards = [Card("RED", action="REVERSE"), Card("YELLOW", 4),
+                            Card("RED", 2), Card("GREEN", 8),
+                            Card("BLUE", 8), Card("GREEN", action="DRAW_TWO"),
+                            Card("GREEN", action="DRAW_TWO")]
+        game.start()  # Start the game after setup
+        self.assertTrue(
+            is_played_card_valid(game.discard_pile[1], game.discard_pile[0]))
+
+    # If there are no matching cards, the player must take a card from the deck
+    def test_player_has_an_extra_card_if_there_Are_no_valid_cards(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", 4)
+        game.discard_pile = [Card("BLUE", 4)]
+
+        players[1].cards = [Card("RED", 5)] * 7
+        game.start()
+        self.assertEqual(len(players[1].cards), 8)

@@ -48,15 +48,24 @@ class Game:
 
     # Start the game
     def start(self):
-        player_card = self.play_turn()
-        self.discard_pile.append(player_card)
+        self.play_turn()
+        # self.discard_pile.append(player_card)
 
     def play_turn(self):
-        self.printer(
-            f"Current Player : {self.players[self.current_player].name}")
+        current_player = self.players[self.current_player]
+        self.printer(f"Current Player : {current_player.name}")
 
-        # The Player whose turn it is should play
-        return self.players[self.current_player].play(self.top_card)
+        # Get players decision
+        decision = current_player.decide_action(self.top_card)
+
+        if decision == "PLAY":
+            played_card = current_player.play(self.top_card)
+            self.printer(f"{current_player.name} played {played_card}")
+            self.discard_pile.append(played_card)
+        else:  # TAKE
+            self.printer(f"{current_player.name} will take a card")
+            card_to_take = self.shuffled_deck.pop()
+            current_player.cards.append(card_to_take)
 
     def print_player_names(self):
         player_names = [p.name for p in self.players]
