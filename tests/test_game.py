@@ -157,3 +157,31 @@ class TestGame(unittest.TestCase):
         players[1].cards = [Card("RED", 5)] * 7
         game.start()
         self.assertEqual(len(players[1].cards), 8)
+
+    # Last players decision should be kept track of
+    def test_last_player_decision_is_play_if_player_plays(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", 4)
+        game.discard_pile = [Card("BLUE", 4)]
+        players[1].cards = [Card("RED", action="REVERSE"), Card("YELLOW", 4),
+                            Card("RED", 2), Card("GREEN", 8),
+                            Card("BLUE", 8), Card("GREEN", action="DRAW_TWO"),
+                            Card("GREEN", action="DRAW_TWO")]
+
+        game.start()
+        self.assertEqual(game.last_player_decision, "PLAY")
+
+    # Last players decision should be kept track of
+    def test_last_player_decision_is_take_if_player_takes(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", 4)
+        game.discard_pile = [Card("BLUE", 4)]
+        players[1].cards = [Card("RED", 5)] * 7
+        game.start()
+        self.assertEqual(game.last_player_decision, "TAKE")

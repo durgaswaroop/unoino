@@ -15,6 +15,7 @@ class Game:
     is_clockwise = None
     current_player = None
     output_disabled = False
+    last_player_decision = None
 
     # Game starts with a non-zero set of players and
     def __init__(self, players, deck, disable_output=False):
@@ -57,6 +58,7 @@ class Game:
 
         # Get players decision
         decision = current_player.decide_action(self.top_card)
+        self.last_player_decision = decision
 
         if decision == "PLAY":
             played_card = current_player.play(self.top_card)
