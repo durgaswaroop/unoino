@@ -64,6 +64,7 @@ class Game:
             played_card = current_player.play(self.top_card)
             self.printer(f"{current_player.name} played {played_card}")
             self.discard_pile.append(played_card)
+            self.top_card = played_card
         else:  # TAKE
             self.printer(f"{current_player.name} will take a card")
             card_to_take = self.shuffled_deck.pop()

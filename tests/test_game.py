@@ -215,3 +215,18 @@ class TestGame(unittest.TestCase):
         # Current Player = 0, Next player = 2
         game.current_player = 0
         self.assertEqual(game.next_player(), 2)
+
+    # The card played by a player should become the new top card
+    def test_top_card_should_be_updated_when_a_player_plays(self):
+        players = [Player(name="DSP", cards=[]), Player(name="SPD", cards=[])]
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", 4)
+        game.discard_pile = [Card("BLUE", 4)]
+        players[1].cards = [Card("RED", action="REVERSE"), Card("YELLOW", 4),
+                            Card("RED", 2), Card("GREEN", 8),
+                            Card("BLUE", 8), Card("GREEN", action="DRAW_TWO"),
+                            Card("GREEN", action="DRAW_TWO")]
+        game.start()
+        self.assertEqual(game.top_card, game.discard_pile[-1])
