@@ -106,6 +106,8 @@ class Game:
                 self.winner = self.current_player
                 self.players[
                     self.current_player].score = self.get_current_player_score()
+                self.print_winner_details()
+
         else:  # TAKE
             self.printer(f"{current_player.name} will take a card")
             card_to_take = self.shuffled_deck.pop()
@@ -117,6 +119,11 @@ class Game:
                          i != self.current_player]
         other_players_values = [p.get_total_value() for p in other_players]
         return sum(other_players_values)
+
+    def print_winner_details(self):
+        self.printer("GAME OVER")
+        self.printer(f"Winner: {self.players[self.current_player].name}")
+
     def print_player_names(self):
         player_names = [p.name for p in self.players]
         names_joined = ', '.join(player_names)

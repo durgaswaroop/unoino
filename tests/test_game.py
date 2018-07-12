@@ -466,3 +466,27 @@ class TestGame(unittest.TestCase):
                             Card("YELLOW", 8),
                             Card("GREEN", action="REVERSE")]
         self.assertEqual(game.get_current_player_score(), 100)
+
+    # When a player wins, GAME OVER should be printed
+    # and the winners name should be printed
+    def test_winner_name_is_printed(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+
+        captured_out = io.StringIO()
+        sys.stdout = captured_out
+
+        game = Game(players, deck, disable_output=False)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="REVERSE")
+        game.discard_pile = [Card("BLUE", action="REVERSE")]
+
+        players[1].cards = [Card("BLUE", 5)]
+        game.play_turn()
+
+        sys.stdout = sys.__stdout__
+
+        self.assertTrue("Winner: Sasuke" in captured_out.getvalue())
+        self.assertTrue("GAME OVER" in captured_out.getvalue())
