@@ -399,3 +399,35 @@ class TestGame(unittest.TestCase):
         game.play_turn()
         self.assertEqual(len(players[2].cards), 11)  # 7+4
 
+    # When a player plays their last card, the game should end
+    def test_game_ends_when_a_player_plays_last_card(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="REVERSE")
+        game.discard_pile = [Card("BLUE", action="REVERSE")]
+
+        players[1].cards = [Card("BLUE", 5)]
+
+        game.play_turn()
+        self.assertEqual(game.status, "GAMEOVER")
+
+    # When a game is over, the winner should be declared
+    def test_winner_is_printed_when_a_game_ends(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="REVERSE")
+        game.discard_pile = [Card("BLUE", action="REVERSE")]
+
+        players[1].cards = [Card("BLUE", 5)]
+
+        game.play_turn()
+        self.assertEqual(game.winner, 1)
+

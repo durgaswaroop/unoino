@@ -17,6 +17,8 @@ class Game:
     output_disabled = False
     last_player_decision = None
     next_player = None
+    status = None
+    winner = None
 
     # Game starts with a non-zero set of players and
     def __init__(self, players, deck, disable_output=False):
@@ -98,6 +100,10 @@ class Game:
                 self.next_player = self.get_next_player()
             elif played_card.is_wild_card and played_card.wild == "WILD":
                 self.next_player = self.get_next_player()
+
+            if len(current_player.cards) == 0:
+                self.status = "GAMEOVER"
+                self.winner = self.current_player
         else:  # TAKE
             self.printer(f"{current_player.name} will take a card")
             card_to_take = self.shuffled_deck.pop()
