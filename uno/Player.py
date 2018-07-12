@@ -4,6 +4,7 @@ from uno.GameRules import is_played_card_valid
 class Player:
     name = None
     cards = None
+    score = None
 
     def __init__(self, name="", cards=[]):
         self.name = name
@@ -39,6 +40,9 @@ class Player:
                        if is_played_card_valid(card, top_card)]
 
         return "TAKE" if len(valid_cards) == 0 else "PLAY"
+
+    def get_total_value(self):
+        return sum([card.value for card in self.cards])
 
     def __repr__(self):
         return f"Player({self.name}, {self.cards})"
