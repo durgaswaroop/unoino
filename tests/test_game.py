@@ -431,3 +431,38 @@ class TestGame(unittest.TestCase):
         game.play_turn()
         self.assertEqual(game.winner, 1)
 
+    # The player who wins should get the score equal to sum of values of
+    # cards held by other players
+    def test_players_points_after_win(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="REVERSE")
+        game.discard_pile = [Card("BLUE", action="REVERSE")]
+
+        players[0].cards = [Card("RED", 2),
+                            Card("BLUE", action="SKIP")]
+        players[2].cards = [Card(wild="WILD_DRAW_FOUR"),
+                            Card("YELLOW", 8),
+                            Card("GREEN", action="REVERSE")]
+
+        players[1].cards = [Card("BLUE", 5)]
+
+        game.play_turn()
+        self.assertEqual(players[1].score, 100)
+
+    # Players score should be calculated correctly
+    def test_winning_player_score_calculation(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+        game = Game(players, deck, disable_output=True)
+        players[0].cards = [Card("RED", 2),
+                            Card("BLUE", action="SKIP")]
+        players[2].cards = [Card(wild="WILD_DRAW_FOUR"),
+                            Card("YELLOW", 8),
+                            Card("GREEN", action="REVERSE")]
+        self.assertEqual(game.get_current_player_score(), 100)

@@ -104,12 +104,19 @@ class Game:
             if len(current_player.cards) == 0:
                 self.status = "GAMEOVER"
                 self.winner = self.current_player
+                self.players[
+                    self.current_player].score = self.get_current_player_score()
         else:  # TAKE
             self.printer(f"{current_player.name} will take a card")
             card_to_take = self.shuffled_deck.pop()
             current_player.cards.append(card_to_take)
         self.printer('-' * 40)
 
+    def get_current_player_score(self):
+        other_players = [p for i, p in enumerate(self.players) if
+                         i != self.current_player]
+        other_players_values = [p.get_total_value() for p in other_players]
+        return sum(other_players_values)
     def print_player_names(self):
         player_names = [p.name for p in self.players]
         names_joined = ', '.join(player_names)
