@@ -371,3 +371,31 @@ class TestGame(unittest.TestCase):
         game.play_turn()
         self.assertTrue(game.top_card.is_wild_card)
         self.assertTrue(game.top_card.wild == "WILD")
+
+    # When a player plays Draw 4, the next player should pick up four cards
+    def test_on_playing_draw_4_next_player_takes_4_card(self):
+        players = [Player(name="Naruto", cards=[]),
+                   Player(name="Sasuke", cards=[]),
+                   Player(name="Sakura", cards=[])]
+
+        game = Game(players, deck, disable_output=True)
+
+        # Overwriting variables for mocking
+        game.top_card = Card("BLUE", action="REVERSE")
+        game.discard_pile = [Card("BLUE", action="REVERSE")]
+
+        players[1].cards = [Card("RED", 5), Card("YELLOW", 4),
+                            Card("RED", 2), Card("GREEN", action="SKIP"),
+                            Card(wild="WILD_DRAW_FOUR")]
+
+        # Here the draw 4 card is the only valid play
+        game.play_turn()
+        self.assertTrue(game.top_card.is_d4)
+        self.assertEqual(game.last_player_decision, "PLAY")
+
+        game.current_player = 2  # Need to manually set it here for the tests
+
+        # Next turn. This player should pick two cards
+        game.play_turn()
+        self.assertEqual(len(players[2].cards), 11)  # 7+4
+
