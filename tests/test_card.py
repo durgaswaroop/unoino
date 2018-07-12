@@ -68,3 +68,8 @@ class TestCard(unittest.TestCase):
     def test_draw_four_card_should_have_is_d4_flag_set(self):
         card1 = Card(wild="WILD_DRAW_FOUR")
         self.assertTrue(card1.is_d4)
+
+    # Wild card's string representation should have color if a color is set
+    def test_wild_cards_string_format_has_color_in_it(self):
+        card = Card(wild="WILD", color="RED")
+        self.assertEqual(card.__repr__(), "Card(WILD, RED)")

@@ -49,7 +49,10 @@ class Card:
 
     def __repr__(self):
         if self.wild:
-            return f"Card({self.wild})"
+            if self.color:
+                return f"Card({self.wild}, {self.color})"
+            else:
+                return f"Card({self.wild})"
         elif self.action:
             return f"Card({self.color}, {self.action})"
         else:
